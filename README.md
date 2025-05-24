@@ -42,7 +42,7 @@ whatisland.online/
    Ubuntu/Deepin set up script
    wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && sudo bash install.sh
    - LaunchPad
-   - Install<Apache/Nginx>,<MySQL 5.7+>,<phpMyAdmin>,<php 7.2+>
+   - Install<Apache/Nginx>,<MySQL 5.7+>,<phpmyadmin>,<php 7.2+>
    - click<website>-<PHP project>-<add website>, enter your domain name, select MySQL for the database, and select PHP 7.2 for the PHP version+
    - Click on the database, add the database, set the database name, username, password, and modify the corresponding values in config. php at the same time. Import data tables using PHPMyAdmin
    - start<Apache/Nginx>,<MySQL 5.7+>
