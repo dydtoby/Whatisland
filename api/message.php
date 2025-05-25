@@ -11,7 +11,8 @@ try {
     switch ($method) {
         // 获取留言（列表/单个）
         case 'GET':
-        if (isset($_GET['id'])) {
+        $id = $_GET['id']??0;
+        if($id>0){
             $sql = "SELECT m.*, u.username, c.name as cate_name 
                         FROM {$prefix}message m
                         LEFT JOIN {$prefix}user u ON m.uid = u.id
