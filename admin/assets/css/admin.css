@@ -1,0 +1,22 @@
+.upload_file{background-color: #9c27b0;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+    color: #fff;
+    line-height: 30px;
+    cursor: pointer;}
+.upload_file::after{color: #fff;
+    content: "上传";
+    line-height: 30px;}
+    .badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+    }
+    .badge-primary {
+        background: #2196F3;
+        color: white;
+    }
+    .badge-secondary {
+        background: #6c757d;
+        color: white;
+    }
+    .text-right{display: flex;justify-content: space-between;}

@@ -1,0 +1,115 @@
+<?php
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *'); // 允许跨域访问
+$response = ['code' => 200, 'data' => null];
+
+try {
+    // 1. 获取客户端IP地址
+    $ip = getClientIp();
+    
+    // 2. 使用IP定位服务获取位置信息
+    $location = getLocationByIP($ip);
+    if (!$location) {
+        throw new Exception('无法获取位置信息');
+    }
+
+    // 3. 获取天气信息 - 修改为直接使用城市名
+    $weather = getWeatherData($location['city']);
+    if (!$weather) {
+        throw new Exception('无法获取天气信息');
+    }
+
+    $response['data'] = [
+        'location' => $location,
+        'weather' => formatWeatherData($weather)
+    ];
+
+} catch (Exception $e) {
+    $response['code'] = 400;
+    $response['error'] = $e->getMessage();
+}
+
+echo json_encode($response);
+
+/**
+ * 获取客户端IP
+ */
+function getClientIp() {
+    $ip = $_SERVER['HTTP_CLIENT_IP'] ?? 
+          $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 
+          $_SERVER['REMOTE_ADDR'] ?? '';
+    
+    // 本地开发使用默认IP（北京）
+    if ($ip === '127.0.0.1' || $ip === '::1') {
+        return '114.247.50.2'; // 北京的一个IP
+    }
+    return $ip;
+}
+
+/**
+ * 通过IP获取位置信息
+ */
+function getLocationByIP($ip) {
+    // 使用ip-api.com免费服务
+    $url = "http://ip-api.com/json/{$ip}?fields=status,message,country,city,lat,lon&lang=zh-CN";
+    
+    $data = fetchJsonData($url);
+    
+    if ($data['status'] !== 'success') {
+        return null;
+    }
+    
+    return [
+        'country' => $data['country'],
+        'city' => $data['city'],
+        'latitude' => $data['lat'],
+        'longitude' => $data['lon']
+    ];
+}
+
+/**
+ * 获取天气数据 - 修改为只使用城市名
+ */
+function getWeatherData($city) {
+    // 使用OpenWeatherMap API
+    $apiKey = ''; // 替换为您的API key
+    $url = "https://api.openweathermap.org/data/2.5/weather?q={$city}&appid={$apiKey}&units=metric&lang=zh_cn";
+    echo $url;
+    return fetchJsonData($url);
+}
+
+/**
+ * 格式化天气数据
+ */
+function formatWeatherData($weatherData) {
+    if (empty($weatherData['weather'])) {
+        return null;
+    }
+    
+    return [
+        'temperature' => round($weatherData['main']['temp']),
+        'feels_like' => round($weatherData['main']['feels_like']),
+        'humidity' => $weatherData['main']['humidity'],
+        'pressure' => $weatherData['main']['pressure'],
+        'wind_speed' => $weatherData['wind']['speed'],
+        'description' => $weatherData['weather'][0]['description'],
+        'icon' => $weatherData['weather'][0]['icon'],
+        'sunrise' => date('H:i', $weatherData['sys']['sunrise']),
+        'sunset' => date('H:i', $weatherData['sys']['sunset'])
+    ];
+}
+
+/**
+ * 通用JSON数据获取函数
+ */
+function fetchJsonData($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    
+    return json_decode($result, true);
+}
+?>
