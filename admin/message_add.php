@@ -1,8 +1,8 @@
 <?php
-require 'header.php';
 require '../tools.func.php';
 require 'auth.php';
 require '../db.func.php';
+require 'header.php';
 ?>
 <div class="row">
     <div class="col-md-12">

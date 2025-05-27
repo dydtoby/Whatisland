@@ -3,38 +3,33 @@ require '../tools.func.php';
 require 'auth.php';
 require '../db.func.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $prefix = getDBPrefix();
 
-// 增强SQL查询
+// 第一步：只查订单和用户信息，不处理 products 细节
 $sql = "SELECT 
             o.id AS 订单ID,
+            o.uid,
             o.name AS 收货人,
             o.phone AS 联系电话,
             o.address AS 收货地址,
             o.price AS 订单金额,
             o.quantity AS 商品总数,
+            o.products,
             o.created_at AS 下单时间,
-            u.username AS 用户名,
-            JSON_UNQUOTE(JSON_EXTRACT(jt.product, '$.product.id')) AS 商品ID,
-            JSON_UNQUOTE(JSON_EXTRACT(jt.product, '$.product.price')) AS 商品单价,
-            p.name AS 商品名称,
-            JSON_UNQUOTE(JSON_EXTRACT(jt.product, '$.quantity')) AS 购买数量
+            u.username AS 用户名
         FROM {$prefix}order o
         LEFT JOIN {$prefix}user u ON o.uid = u.id
-        JOIN JSON_TABLE(
-            o.products,
-            '$.*' COLUMNS (
-                product JSON PATH '$'
-            )
-        ) AS jt
-        LEFT JOIN {$prefix}product p 
-            ON p.id = JSON_UNQUOTE(JSON_EXTRACT(jt.product, '$.product.id'))
         ORDER BY o.created_at DESC";
 
 $orders = query($sql);
 
-// 重组数据结构
+// 第二步：解析每条订单的 products 字段
 $grouped_orders = [];
+
 foreach ($orders as $order) {
     $orderId = $order['订单ID'];
     if (!isset($grouped_orders[$orderId])) {
@@ -52,25 +47,39 @@ foreach ($orders as $order) {
             '商品明细' => []
         ];
     }
-    
-    // 计算小计
-    $subtotal = number_format($order['商品单价'] * $order['购买数量'], 2);
-    
-    $grouped_orders[$orderId]['商品明细'][] = [
-        '商品ID' => $order['商品ID'],
-        '商品名称' => $order['商品名称'] ?? '[已下架]',
-        '单价' => number_format($order['商品单价'], 2),
-        '数量' => $order['购买数量'],
-        '小计' => $subtotal
-    ];
+
+    // 解码 JSON 产品数据
+    $products = json_decode($order['products'], true);
+    if (!is_array($products)) continue;
+
+    foreach ($products as $item) {
+        $pid = $item['product']['id'] ?? null;
+        $price = $item['product']['price'] ?? 0;
+        $qty = $item['quantity'] ?? 0;
+
+        if (!$pid) continue;
+
+        // 查询商品名称（可缓存优化）
+        $product = query("SELECT name FROM {$prefix}product WHERE id = ?", [$pid]);
+        $pname = $product[0]['name'] ?? '[已下架]';
+
+        $subtotal = number_format($price * $qty, 2);
+
+        $grouped_orders[$orderId]['商品明细'][] = [
+            '商品ID' => $pid,
+            '商品名称' => $pname,
+            '单价' => number_format($price, 2),
+            '数量' => $qty,
+            '小计' => $subtotal
+        ];
+    }
 }
 
-// 设置HTTP头
+// 第三步：导出为 Excel（HTML 格式）
 header('Content-Type: application/vnd.ms-excel; charset=utf-8');
 header('Content-Disposition: attachment; filename=订单详情_'.date('YmdHis').'.xls');
-echo "\xEF\xBB\xBF"; // BOM头
+echo "\xEF\xBB\xBF"; // 防止乱码
 
-// 输出完整表格
 echo '<table border="1">';
 echo '<tr>
         <th>订单ID</th>
@@ -85,14 +94,12 @@ echo '<tr>
       </tr>';
 
 foreach ($grouped_orders as $order) {
-    // 构建详细商品信息
-    $products = array_map(function($item) {
-        // return "{$item['商品名称']} (ID:{$item['商品ID']})<br>
+    $products_html = array_map(function($item) {
         return "{$item['商品名称']}<br>
-               单价：￥{$item['单价']} × 数量：{$item['数量']}<br>
-               小计：￥{$item['小计']}";
+                单价：￥{$item['单价']} × 数量：{$item['数量']}<br>
+                小计：￥{$item['小计']}";
     }, $order['商品明细']);
-    
+
     echo '<tr>';
     echo '<td>'.$order['基本信息']['订单ID'].'</td>';
     echo '<td>'.htmlspecialchars($order['基本信息']['用户名']).'</td>';
@@ -101,7 +108,7 @@ foreach ($grouped_orders as $order) {
     echo '<td style="width:300px;">'.htmlspecialchars($order['基本信息']['收货地址']).'</td>';
     echo '<td>￥'.number_format($order['基本信息']['订单金额'], 2).'</td>';
     echo '<td>'.$order['基本信息']['商品总数'].'</td>';
-    echo '<td style="white-space:normal;">'.implode("<hr style='margin:5px 0'>", $products).'</td>';
+    echo '<td style="white-space:normal;">'.implode("<hr style='margin:5px 0'>", $products_html).'</td>';
     echo '<td>'.$order['基本信息']['下单时间'].'</td>';
     echo '</tr>';
 }

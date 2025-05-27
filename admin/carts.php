@@ -9,7 +9,7 @@ $cart = query($sql);
 foreach ($cart as $c) {
   $sql = "SELECT username FROM {$prefix}user WHERE id = '{$c['uid']}'";
   $user = queryOne($sql);
-  $c['username'] = $user['username'];
+  $c['username'] = !empty($user['username'])?$user['username']:'';
   $back_cart_data[] = $c;
 }
 require 'header.php';
