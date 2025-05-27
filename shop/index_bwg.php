@@ -88,11 +88,11 @@
                         <div class="bwg_M_t_l_t_t_m">
                         <img src="./images/index/s1.jpg" alt="">
                         <div class="bwg_M_t_l_t_btn">
-                            欢迎来到奶油星物馆
+                            欢迎来到奶油星物馆|Welcome to the Cream Star Museum.
                         </div>
                         </div>
-                        <h2>Cream资源的分享区!</h2>
-                        <p>免费的资源预览处</p>
+                        <h2>Cream资源的分享区!|Sharing area for Cream!</h2>
+                        <p>免费的资源预览处|Free Resource Preview Service</p>
                         <div class="bwg_M_t_l_t_b">
                             <div class="bwg_M_t_l_t_b_btn">
                                 <img src="./images/index/s2.jpg" alt="">
@@ -133,23 +133,23 @@
             <div class="bwg_M_t_r">
                 <!-- <img src="./images/index//s7.jpg" alt=""> -->
                 <div class="con">
-                    <h2>欢迎光临奶油星物馆</h2>
+                    <h2>欢迎光临奶油星物馆<br>Welcome to the Cream Star Museum</h2>
                 </div>
             </div>
         </div>
         <div class="bwg_M_two Width1440">
             <div class="bwg_M_title">
                 <div class="bwg_M_title_l">
-                <h2>最新的资源</h2>
-                <span>查看更多 ></span>
+                <h2>最新的资源|New resources</h2>
+                <span>查看更多|View More ></span>
                 </div>
                 <div class="searchList bwg_M_title_r">
                     <form action="" method="GET">
                         <?php if (!empty($current_category)) : ?>
                             <input type="hidden" name="category" value="<?php echo htmlspecialchars($current_category); ?>">
                         <?php endif; ?>
-                        <input type="text" name="keyword" placeholder="名称/Tab" value="<?php echo htmlspecialchars($keyword); ?>">
-                        <button type="submit" class="btn">搜索</button>
+                        <input type="text" name="keyword" placeholder="Name/Tag" value="<?php echo htmlspecialchars($keyword); ?>">
+                        <button type="submit" class="btn">搜索|search</button>
                     </form>
                 </div>
             </div>

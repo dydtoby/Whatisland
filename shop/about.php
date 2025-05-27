@@ -109,16 +109,16 @@
                         <div class="about-card contact-card">
                             <h2 class="about-title">
                                 <i class=" glyphicon glyphicon-envelope"></i>
-                                联系我们
+                                联系我们|Contact Us
                             </h2>
                             <div class="contact-info">
                                 <div class="contact-item">
-                                    <span class="contact-label">官方邮箱：</span>
-                                    3190754144@qq.com
+                                    <span class="contact-label">官方邮箱Official Email：</span>
+                                    <a href="mailto:3190754144@qq.com">3190754144@qq.com</a>
                                 </div>
                                 <div class="contact-item">
-                                    <span class="contact-label">服务时间：</span>
-                                    每日 09:00 - 23:00 (UTC+1)
+                                    <span class="contact-label">服务时间Service time：</span>
+                                     09:00 - 23:00 (UTC+1)
                                 </div>
                                 <!-- <button class="feedback-btn">问题反馈</button> -->
                             </div>

@@ -52,14 +52,14 @@
     <div class="Main_S_M">
           <div class="xny_Main_s">
                 <div class="xny_M Width1440">
-                    <h2>主页>奶油商店街>小奶油商城</h2>
+                    <h2>主页Home>奶油商店街Cream Shop Street>小奶油商城Cream Mall</h2>
                     <ul class="xny_M_t">
-                        <li>这里展示了本站所有的商品</li>
+                        <li>这里展示了本站所有的商品All Products Here</li>
                         <li>
                         <div class="searchList bwg_M_title_r">
                             <form action="" method="GET">
                                 <input type="text" name="keyword" placeholder="搜索商品">
-                                <button type="submit" class="btn">搜索</button>
+                                <button type="submit" class="btn">搜索|Search</button>
                             </form>
                         </div>
                         </li>
@@ -71,7 +71,7 @@
                             <img src="../<?php echo $product['images']; ?>" alt="">
                             <h2 class="ellipsis"><?php echo $product['name']; ?></h2>
                             <div class="price">$<?php echo $product['price']; ?></div>
-                            <a class="c_btn" href="cart_add.php?product_id=<?php echo $product['id']; ?>&quantity=1">加入购物车</a>
+                            <a class="c_btn" href="cart_add.php?product_id=<?php echo $product['id']; ?>&quantity=1">加入购物车Add</a>
                         </li>
                         <?php endforeach; ?>
                     </ul>

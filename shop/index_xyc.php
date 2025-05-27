@@ -56,11 +56,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const cid = parseInt(formData.get('cid'));
         // 客户端验证
         if (!title || !message) {
-            alert('标题和内容不能为空');
+            alert('标题和内容不能为空|Title and content cannot be empty');
             return;
         }
         if (cid === 0) {
-            alert('请选择分类');
+            alert('请选择分类|Please select a category');
             return;
         }
 
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 显示加载状态
             const submitBtn = this.querySelector('.post_btn');
             submitBtn.disabled = true;
-            submitBtn.textContent = '提交中...';
+            submitBtn.textContent = '提交中|posting...';
 
             // 调用API提交数据
             const response = await fetch('../api/message.php', {
@@ -79,22 +79,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             
             if (result.code === 200) {
-                alert('发布成功');
+                alert('发布成功Publish Successfully');
                 // 清空表单
                 this.reset();
                 // 刷新留言列表
                 await loadMessages(currentCid);
             } else {
-                alert(result.msg || '发布失败');
+                alert(result.msg || '发布失败Failure to publish');
             }
         } catch (error) {
-            console.error('提交失败:', error);
-            alert('网络错误，请稍后重试');
+            console.error('提交失败Failed to submit:', error);
+            alert('网络错误，请稍后重试<br>Network error, please try again later');
         } finally {
             // 恢复按钮状态
             const submitBtn = this.querySelector('.post_btn');
             submitBtn.disabled = false;
-            submitBtn.textContent = '发射！';
+            submitBtn.textContent = '发射！|update';
         }
     });
 
@@ -121,7 +121,7 @@ async function loadCategories() {
             renderCategorySelector(data);
         }
     } catch (error) {
-        console.error('加载分类失败:', error);
+        console.error('加载分类失败|Failed to load category:', error);
     }
 }
 
@@ -216,7 +216,7 @@ function renderCategorySidebar(categories) {
 function renderCategorySelector(categories) {
     const selector = document.querySelector('select[name="cid"]');
     selector.innerHTML = `
-        <option value="0">-- 选择分类 --</option>
+        <option value="0">-- 选择分类|Select Cat. --</option>
         ${categories.map(cate => `
             <option value="${cate.id}">${cate.name}</option>
         `).join('')}
@@ -229,8 +229,8 @@ function renderMessages(messages) {
     if (messages.length === 0) {
         list.innerHTML = `
             <li class="no-data">
-                <img src="images/empty.svg" alt="无数据">
-                <p>当前分类还没有留言哦~</p>
+                <img src="images/empty.svg" alt="无数据|No data">
+                <p>当前分类还没有留言哦~|No message~</p>
             </li>
         `;
         return;
@@ -242,7 +242,7 @@ function renderMessages(messages) {
                 <h2 class="icon">${msg.title}</h2>
                 <div class="tab">
                     <span style="background:${msg.col || '#eee'}"></span>
-                    ${msg.cate_name || '未分类'}
+                    ${msg.cate_name || '未分类|Uncategorised'}
                 </div>
                 <p>${msg.message.replace(/\n/g, '<br>')}</p>
             </div>
@@ -260,7 +260,7 @@ function renderMessages(messages) {
     opacity: 0.7;
 }
 .loading::after {
-    content: "加载中...";
+    content: "loading...";
     position: absolute;
     top: 50%;
     left: 50%;
@@ -292,37 +292,37 @@ function renderMessages(messages) {
                 <button class="btn" onclick="handleSearch()">搜索</button>
             </div>
                 <ul class="xyc_M_l_t">
-                    <li>话题</li>
-                    <li>更多</li>
+                    <li>话题|Subject</li>
+                    <li>更多|More</li>
                 </ul>
                 <ul class="xyc_M_l_b"> 
-                    <h2>类别</h2>   
+                    <h2>类别|Cat.</h2>   
                 </ul>
             </div>
             <div class="xyc_right_Main">
                 <div class="post_creator">
                     <form>
                         <div class="creator_header">
-                            <input type="text" name="title" placeholder="标题" required>
-                            <textarea name="message" placeholder="有什么新鲜事分享给大家... (ﾉ>ω<)ﾉ" required></textarea>
+                            <input type="text" name="title" placeholder="标题|Caption" required>
+                            <textarea name="message" placeholder="有什么新鲜事分享给大家|What's new?... (ﾉ>ω<)ﾉ" required></textarea>
                             <input type="hidden" name="uid" value="<?php echo  getSession('id', 'shop');?>">
                         </div>
                         <div class="creator_footer">
                             <select name="cid" class="cate-select" required>
                                 <!-- 动态填充 -->
                             </select>
-                            <button type="submit" class="post_btn">发射！</button>
+                            <button type="submit" class="post_btn">发射/post!</button>
                         </div>
                     </form>
                 </div>
                 <div class="xyc_M_r">
                 <div class="xyc_M_r_c" style="margin-top:0;">
                     <div class="xyc_M_r_c_l">
-                        话题
+                        话题|Subject
                     </div>
                     <ul class="xyc_M_r_c_r">
-                        <li>用户</li>   
-                        <li>活动</li>
+                        <li>用户|User</li>   
+                        <li>活动|Function</li>
                     </ul>
                 </div>
                 <div class="xyc_M_r_b">
@@ -355,7 +355,7 @@ function time_ago($datetime) {
             return $value . $unit . '前';
         }
     }
-    return '刚刚';
+    return '刚刚|New';
 }
 
 require 'footer.php';

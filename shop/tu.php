@@ -101,10 +101,10 @@
     <div class="tu_Main">
             <div class="tu_M Width1440">
                 <div class="bwg_M_title">
-                    <h2>兔堡堡资源库</h2>
+                    <h2>兔堡堡资源库|Rabbit Castle Library</h2>
                     <button class="upload-btn">
                         <img src="./images/icons/upload.png" alt="">
-                        上传文件
+                        上传文件|Upload files
                     </button>
                 </div>
                 
@@ -146,14 +146,14 @@
                                         <span><?php echo $date; ?></span>
                                     </div>
                                     <div class="file-actions">
-                                        <button class="download-btn" onclick="downloadFile(<?php echo $file['id']; ?>)">下载</button>
-                                        <button class="delete-btn" onclick="deleteFile(<?php echo $file['id']; ?>)">删除</button>
+                                        <button class="download-btn" onclick="downloadFile(<?php echo $file['id']; ?>)">下载|Download</button>
+                                        <button class="delete-btn" onclick="deleteFile(<?php echo $file['id']; ?>)">删除|Delete</button>
                                     </div>
                                 </div>
                                 <?php
                             }
                         } else {
-                            echo '<div class="no-files">暂无上传文件</div>';
+                            echo '<div class="no-files">暂无上传文件|No Files</div>';
                         }
                         
                         // 文件类型图标函数
@@ -181,13 +181,13 @@
         <div id="uploadModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2>上传文件</h2>
+        <h2>上传文件|Upload File</h2>
         <form id="uploadForm" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="fileInput">选择文件：</label>
+                <label for="fileInput">选择文件|Choose File：</label>
                 <input type="file" id="fileInput" name="file" required>
             </div>
-            <button type="submit" class="confirm-btn">上传</button>
+            <button type="submit" class="confirm-btn">上传|Uploading</button>
         </form>
         <div class="progress-container" style="margin: 15px 0; display: none;">
             <div class="progress-bar" style="height: 20px; background: #eee; border-radius: 10px;">
@@ -260,12 +260,12 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
                         el.textContent = (parseInt(el.textContent.replace(/,/g, '')) - 500).toLocaleString();
                     });
                     // 刷新文件列表
-                    setTimeout(() => location.reload(), 1000);
+                    setTimeout(() => location.reload(), 6000);
                 } else {
-                    alert('上传失败: ' + data.msg);
+                    alert('上传失败Fail: ' + data.msg);
                 }
             } catch (error) {
-                alert('上传请求失败');
+                alert('上传请求失败Fail');
             }
         }
     };
@@ -290,7 +290,7 @@ function downloadFile(fileId) {
     // 错误响应处理（JSON格式）
     if (contentType.includes('application/json')) {
       return response.json().then(errData => {
-        throw new Error(errData.msg || '下载失败')
+        throw new Error(errData.msg || '下载失败Download Fail')
       })
     }
     
@@ -317,23 +317,23 @@ function downloadFile(fileId) {
       })
     }
     
-    throw new Error('未知响应类型')
+    throw new Error('未知响应类型Unknown response')
   })
   .catch(error => {
-    console.error('下载失败:', error)
+    console.error('下载失败Download Fail:', error)
     alert(error.message) // 或用UI框架显示错误提示
   })
 }
 // 删除文件
 function deleteFile(fileId) {
-    if(confirm('确定要删除这个文件吗？')) {
+    if(confirm('确定要删除这个文件吗Sure to delete？')) {
         fetch(`../api/delete_file.php?id=${fileId}`, {
             method: 'POST'
         })
         .then(response => response.json())
         .then(data => {
             if(data.code === 200) {
-                alert('删除成功');
+                alert('删除成功|Delete success');
                 location.reload();
             } else {
                 alert( data.msg);

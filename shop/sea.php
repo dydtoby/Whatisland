@@ -70,18 +70,18 @@
                         <div class="user_data">
                             <div class="data_item">
                                 <span class="num"><?php echo number_format($user['jf']); ?></span>
-                                <span class="label">累计奶油值</span>
+                                <span class="label">累计奶油值|TotalPts</span>
                             </div>
                         </div>
                     </div>
                     <div class="user_data_r">
                         <div class="user_actions">
-                            <div class="btn">修改资料</div>
+                            <div class="btn">修改资料|Edit</div>
                         </div>
                     </div>
                 </div>
                 <div class="points-display">
-                    <h1>当前奶油值</h1>
+                    <h1>当前奶油值|CurrentPts</h1>
                     <div class="num"><?php echo number_format($user['jf']); ?></div>
                 </div>
         
@@ -107,7 +107,7 @@
                 </div> -->
                 <?php if($signed): ?>
                 <div class="exchange-records">
-                    <h2>🎁 我的兑换记录</h2>
+                    <h2>🎁 我的兑换记录My Redemptions</h2>
                     <div class="record-list">
                         <?php if(!empty($exchange_records)): ?>
                             <?php foreach($exchange_records as $record): ?>
@@ -117,40 +117,40 @@
                                     <span class="quantity">×<?php echo $record['num']; ?></span>
                                 </div>
                                 <div class="detail-info">
-                                    <span class="points">-<?php echo $record['total_jf']; ?>奶油值</span>
+                                    <span class="points">-<?php echo $record['total_jf']; ?>奶油值|Pts</span>
                                     <span class="time"><?php echo date('m/d H:i', strtotime($record['created_at'])); ?></span>
                                 </div>
                             </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <div class="no-records">暂无兑换记录</div>
+                            <div class="no-records">暂无兑换记录|No History</div>
                         <?php endif; ?>
                     </div>
                 </div>
                 <?php else: ?>
                 <div class="calendar">
-                    <h2>📅 签到日历</h2>
+                    <h2>📅 签到日历|Check-in</h2>
                     <div class="calendar-grid">
                         <div class="day signed ">
-                            <div class="date">今天</div>
+                            <div class="date">今天today</div>
                             <div class="points">+5</div>
                         </div>
                         <div class="day">
-                            <div class="date">明天</div>
+                            <div class="date">明天tmrw</div>
                             <div class="points">+5</div>
                         </div>
-                        <div class="day"><div class="date">3天</div> <div class="points">+5</div></div>
-                        <div class="day"><div class="date">4天</div> <div class="points">+5</div></div>
-                        <div class="day"><div class="date">5天</div> <div class="points">+5</div></div>
-                        <div class="day"><div class="date">6天</div> <div class="points">+5</div></div>
-                        <div class="day"><div class="date">7天</div> <div class="points">+5</div></div>
+                        <div class="day"><div class="date">3天day</div> <div class="points">+5</div></div>
+                        <div class="day"><div class="date">4天day</div> <div class="points">+5</div></div>
+                        <div class="day"><div class="date">5天day</div> <div class="points">+5</div></div>
+                        <div class="day"><div class="date">6天day</div> <div class="points">+5</div></div>
+                        <div class="day"><div class="date">7天day</div> <div class="points">+5</div></div>
                     </div>
-                    <div class="qdBtn">签到</div>
+                    <div class="qdBtn">签到|Check in</div>
                 </div> 
                 <?php endif; ?>
             </div>
             <div class="tqList Width1440">
-                <h2>天气</h2>
+                <h2>天气weather</h2>
             <ul>
                 <!-- 天气信息将被动态填充到这里 -->
             </ul>
@@ -177,24 +177,24 @@
                      data-src="i<?=$i?>.png">
                 <?php endfor; ?>
             </div>
-            <button class="confirm-btn" onclick="updateAvatar()">保存头像</button>
+            <button class="confirm-btn" onclick="updateAvatar()">保存头像|Save Avatar</button>
         </div>
 
         <!-- 密码修改 -->
         <div id="tab3" class="tab-content">
             <div class="input-group">
-                <label>新密码：</label>
+                <label>新密码|new password：</label>
                 <input type="password" id="newPass" required>
-                <div class="password-rules">需包含：大写字母、小写字母、数字、特殊字符，至少8位</div>
+                <div class="password-rules">需包含：大写字母、小写字母、数字、特殊字符，至少8位<br>Need to include: uppercase letters, lowercase letters, numbers, special characters, at least 8 digits</div>
             </div>
-            <button class="confirm-btn" onclick="updatePassword()">修改密码</button>
+            <button class="confirm-btn" onclick="updatePassword()">修改密码|change your password</button>
         </div>
         <div class="delete-section">
             <div class="input-group">
-                <label>注销账号</label>
-                <input type="text" id="uidInp"  placeholder="输入您的用户ID">
+                <label>注销账号|Cancellation of Account</label>
+                <input type="text" id="uidInp"  placeholder="输入您的|Enter your Bilibili UID">
             </div>
-            <button class="confirm-btn"  onclick="confirmDelete()">确认注销</button>
+            <button class="confirm-btn"  onclick="confirmDelete()">确认注销|Confirmation of cancellation</button>
         </div>
     </div>
 </div>
@@ -219,7 +219,7 @@
       </script>
        <script src="./js/jquery-3.5.1.min.js"></script>
       <script>$.ajax({
-        url: "https://api.openweathermap.org/data/2.5/forecast?q=London&appid=899a6885afbf0702188ef94eb3204236&units=metric&cnt=10",
+        url: "https://api.openweathermap.org/data/2.5/forecast?q=York&appid=899a6885afbf0702188ef94eb3204236&units=metric&cnt=10",
         method: "GET",
         dataType: "jsonp",
         success: function (response) {
@@ -253,14 +253,14 @@
         // 获取天气状况描述
         var weatherDescription = day.weather[0].description
         if (weatherDescription.toLowerCase().includes('clear')) {
-            weatherDescription = '晴'
+            weatherDescription = '晴|clear'
                 $tqImg.addClass('tqImg_q');
         } else if (weatherDescription.toLowerCase().includes('clouds')) {
-            weatherDescription = '阴天/多云'
+            weatherDescription = '阴天/多云|clouds'
               $tqImg.addClass('tqImg_yin');
         }
         else if (weatherDescription.toLowerCase().includes('rain')) {
-            weatherDescription = '雨'
+            weatherDescription = '雨|rain'
             $tqImg.addClass('tqImg_yu');
         }
         // 创建<p>元素显示天气状况
@@ -315,7 +315,7 @@ async function updateAvatar() {
         .then(response => response.json())
         .then(data => {
             if(data.code === 200) {
-                alert('更新成功');
+                alert('更新成功|success');
                 location.reload();
             } else {
                 alert(data.msg);
@@ -331,7 +331,7 @@ async function updatePassword() {
         .then(response => response.json())
         .then(data => {
             if(data.code === 200) {
-                alert('密码修改成功');
+                alert('密码修改成功|success');
                 location.reload();
             } else {
                 alert(data.msg);
@@ -351,14 +351,14 @@ function confirmDelete() {
     const uidInp = document.getElementById('uidInp').value;
     if(uidInp ==='')
     {
-        alert('请输入uid');
+        alert('请输入/Enter uid');
         return false;
     }
     fetch(`../api/delete_account.php?uidInp=${encodeURIComponent(uidInp)}`)
         .then(response => response.json())
         .then(data => {
             if(data.code === 200) {
-                alert('注销成功');
+                alert('注销成功|Successful cancellation');
                 location.href = '../shop/login.php';
             } else {
                 alert(data.msg);
@@ -371,7 +371,7 @@ function checkSignStatus() {
         .then(response => response.json())
         .then(data => {
             if(data.signed) {
-                document.querySelector('.qdBtn').textContent = '已签到';
+                document.querySelector('.qdBtn').textContent = '已签到Signed in';
                 document.querySelector('.qdBtn').classList.add('signed');
                 document.querySelector('.qdBtn').disabled = true;
             }

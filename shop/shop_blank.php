@@ -58,13 +58,13 @@
                         <div class="user_data">
                             <div class="data_item">
                                 <span class="num"><?php echo number_format($user['jf']); ?></span>
-                                <span class="label">累计奶油值</span>
+                                <span class="label">累计奶油值|TotalPts</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="goods_grid">
-                    <h2>奶油值兑换</h2>
+                    <h2>奶油值兑换|Pts Redeem</h2>
                     <?php foreach ($data as $product): ?>
                         <div class="goods_item" data-id="<?php echo $product['id']; ?>">
                         <div class="goods_thumb">
@@ -73,13 +73,16 @@
                         <div class="goods_info">
                         <h3 class="ellipsis"><?php echo $product['name']; ?></h3>
                             <div class="goods_price">
-                            <span class="cost"><?php echo $product['jf']; ?>奶油值</span>
+                            <span class="cost"><?php echo $product['jf']; ?>奶油值|Pts</span>
                             </div>
                             <div class="goods_actions">
                                 <button class="exchange_btn">
-                                    立即兑换
+                                    立即兑换|Exch.
                                 </button>
-                                <div class="remaining">剩余：<?php echo $product['stock']; ?>件</div>
+                                <div class="remaining">剩余:<?php echo $product['stock']; ?>件|Last: <?php echo $product['stock']; ?>pc
+                                </div>
+                            </div>
+                            
                             </div>
                         </div>
                     </div>

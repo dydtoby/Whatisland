@@ -17,24 +17,24 @@ if (!empty($cart_page_data)) {
     <form action="checkout.php" method="post" id="checkoutForm">
         <!-- 收货信息 -->
         <div class="shipping-info">
-            <h2>收货信息</h2>
+            <h2>收货信息|Receiving Information</h2>
             
             <div class="form-group">
-                <label>收货人姓名：</label>
+                <label>收货人姓名|Name of consignee：</label>
                 <input type="text" name="name" required 
-                       placeholder="请输入收货人姓名" maxlength="20">
+                       placeholder="请输入收货人姓名|name of consignee" maxlength="20">
             </div>
 
             <div class="form-group">
-                <label>联系电话：</label>
+                <label>联系电话|telephone number：</label>
                 <input type="tel" name="phone" required 
-                       placeholder="请输入11位手机号" pattern="\d{11}">
+                       placeholder="请输入手机号|CN/UK telephone number" pattern="\d{11}">
             </div>
 
             <div class="form-group">
-                <label>收货地址：</label>
+                <label>收货地址|shipping address：</label>
                 <textarea name="address" required 
-                          placeholder="请输入详细地址（街道、门牌号等）" 
+                          placeholder="请输入详细地址（街道、门牌号等）|Please enter full address (street, house number, etc.)" 
                           rows="3" minlength="10"></textarea>
             </div>
         </div>
@@ -56,23 +56,23 @@ if (!empty($cart_page_data)) {
                            onchange="updateCart(this)" data-pid="<?php echo $pid; ?>">
                     <div class="add" onclick="updateQuantity(this, 1)">+</div>
                 </div>
-                <a class="del"   onclick="return confirm('确认删除？')" href="cart_del.php?product_id=<?php echo $pid; ?>&cart_id=<?php echo $cart_page_data['id']; ?>">删除</a> 
+                <a class="del"   onclick="return confirm('确认删除？')" href="cart_del.php?product_id=<?php echo $pid; ?>&cart_id=<?php echo $cart_page_data['id']; ?>">删除|DELET</a> 
             </div>
         </li>
         <?php endforeach; ?>
     <?php else: ?>
-        <li>购物车为空</li>
+        <li>购物车为空|Shopping cart is empty</li>
     <?php endif; ?>
     </ul>
     <div class="addList">
     <div class="left">
-                <a class="btn" href="shop_list.php">返回购物</a>
+                <a class="btn" href="shop_list.php">返回购物|Back to Shopping</a>
                 </div>
        <div class="right">
-         <div class="allPrice">总价：￥<span id="totalPrice" style="font-size: 24px;font-weight: bold;color: #c00;"><?php echo isset($cart_page_data['price']) ? number_format($cart_page_data['price'], 2) : '0.00' ?></span></div>
+         <div class="allPrice">总价|total price：￥<span id="totalPrice" style="font-size: 24px;font-weight: bold;color: #c00;"><?php echo isset($cart_page_data['price']) ? number_format($cart_page_data['price'], 2) : '0.00' ?></span></div>
          <!-- <a class="btn"  href="checkout.php">结算</a> -->
          
-         <button type="submit" class="btn">提交订单</button>
+         <button type="submit" class="btn">提交订单|Order</button>
             <input type="hidden" name="cart_id" value="<?php echo $cart_page_data['id'] ?? ''; ?>">
        </div>
     </div>
@@ -125,24 +125,38 @@ function updateCart(input) {
 }
 </script>
 <script>
-// 添加表单验证
+//添加表单验证(Add Form Validation)
 document.getElementById('checkoutForm').addEventListener('submit', function(e) {
-    const phone = document.querySelector('input[name="phone"]').value;
-    const address = document.querySelector('textarea[name="address"]').value;
-    
-    if (!/^1[3-9]\d{9}$/.test(phone)) {
-        alert('请输入有效的11位手机号码');
+    const phone = document.querySelector('input[name="phone"]').value.trim();
+    const address = document.querySelector('textarea[name="address"]').value.trim();
+
+    // 手机号正则表达式
+    const chinaLocal = /^1[3-9]\d{9}$/;       // 中国本地格式，如 13812345678
+    const chinaIntl = /^\+861[3-9]\d{9}$/;    // 中国国际格式，如 +8613812345678
+    const ukLocal = /^07\d{9}$/;              // 英国本地格式，如 07123456789
+    const ukIntl = /^\+447\d{9}$/;            // 英国国际格式，如 +447123456789
+
+    // 验证手机号
+    if (
+        !chinaLocal.test(phone) &&
+        !chinaIntl.test(phone) &&
+        !ukLocal.test(phone) &&
+        !ukIntl.test(phone)
+    ) {
+        alert('请输入有效的中国或英国手机号码（支持国际格式）');
         e.preventDefault();
         return false;
     }
-    
-    if (address.trim().length < 10) {
+
+    // 地址验证
+    if (address.length < 10) {
         alert('地址信息过短，请填写详细地址');
         e.preventDefault();
         return false;
     }
 });
 </script>
+
 <?php
 require 'footer.php';
 ?>
