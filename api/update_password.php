@@ -18,12 +18,12 @@ try {
     }
     
     
-    // 密码复杂度验证
+    // 密码复杂度验证Password Complexity Verification
     if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $newPass)) {
         throw new Exception('密码需包含大小写字母、数字和特殊字符，至少8位');
     }
     
-    // 更新密码
+    // 更新密码Update Password
     $newHash = hash('sha256', $newPass);
     $sql = "UPDATE {$prefix}user SET password = '$newHash' WHERE id = $uid";
     $exec = execute($sql);
