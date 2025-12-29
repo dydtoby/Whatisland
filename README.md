@@ -2,7 +2,7 @@
 ## The website has been deployed on: https://whatisland.online/shop/
 ## github:https://github.com/dydtoby/Whatisland.git
 ## Module code (COM6023M)
-## Name:Yudong.Du
+## Name:蝶汐
 
 This project is an e-commerce+blog platform based on PHP and MySQL, Designed for the virtual anchor "库莉姆Cream" fan community.The system integrates a variety of functions such as shopping mall, points system, message board, resource sharing, etc., providing a complete front-end and back-end solution.
 
